@@ -1,12 +1,11 @@
 {
   "name": "pouch-ts-wrapper",
-  "version": "1.0.0",
+  "version": "1.0.10",
   "description": "A wrapper for pouch-db based on sequelize-ts",
+  "author": "dracornino",  
+  "license": "MIT",  
   "main": "dist/pouch.js",
-  "types": "dist/mongo.d.ts",
-  "author": "dracornino",
-  "license": "MIT",
-  "private": false,
+  "types": "dist/pouch.d.ts",
   "url": "https://github.com/dracornino/pouch-ts-wrapper.git",
   "repository": {
     "type": "git",

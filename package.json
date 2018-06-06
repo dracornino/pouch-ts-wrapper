@@ -1,0 +1,74 @@
+{
+  "name": "pouch-ts-wrapper",
+  "version": "1.0.0",
+  "description": "A wrapper for pouch-db based on sequelize-ts",
+  "main": "dist/pouch.js",
+  "types": "dist/mongo.d.ts",
+  "author": "dracornino",
+  "license": "MIT",
+  "private": false,
+  "url": "https://github.com/dracornino/pouch-ts-wrapper.git",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dracornino/pouch-ts-wrapper.git"
+  },
+  "scripts": {
+    "build": "tsc --project ./dist/tsconfig.json",
+    "publish": "yarn build & npm publish "
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest",
+      "^.+\\.js$": "babel-jest"
+    },
+    "testRegex": ".*\\.spec\\.js|.*\\.test\\.ts$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!(react-native|my-project|react-native-button)/)"
+    ],
+    "globals": {
+      "ts-jest": {
+        "useBabelrc": true
+      },
+      "NODE_ENV": "test"
+    }
+  },
+  "dependencies": {
+    "babel-preset-stage-0": "^6.24.1",
+    "lodash": "^4.17.10",
+    "pouchdb": "^6.4.3",
+    "pouchdb-find": "^6.4.3",
+    "pouchdb-server": "^4.0.1",
+    "reflect-metadata": "^0.1.12"
+  },
+  "devDependencies": {
+    "@types/jest": "^23.0.0",
+    "@types/lodash": "^4.14.109",
+    "@types/pouchdb": "^6.3.2",
+    "@types/pouchdb-find": "^6.3.2",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^8.2.3",
+    "babel-jest": "^23.0.1",
+    "babel-plugin-syntax-async-functions": "^6.13.0",
+    "babel-plugin-syntax-async-generators": "^6.13.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+    "babel-plugin-transform-es2015-template-literals": "^6.22.0",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "jest": "^23.1.0",
+    "ts-jest": "^22.4.6",
+    "typescript": "^2.9.1"
+  }
+}

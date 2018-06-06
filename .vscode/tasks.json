@@ -1,0 +1,28 @@
+{
+  "version": "2.0.0",
+  "command": "gulp",
+  "isBackground": true,
+  "echoCommand": false,
+  "type": "process",
+  "windows": {},
+  "tasks": [
+    {
+      "type": "typescript",
+      "tsconfig": "tsconfig.json",
+      "problemMatcher": ["$tsc-watch"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "identifier": "tsc-watcher",
+      "isBackground": true
+    },
+    {
+      "type": "typescript",
+      "tsconfig": "tsconfig.json",
+      "group": "build",
+      "identifier": "tsc-hardcoded",
+      "isBackground": true
+    }
+  ]
+}

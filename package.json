@@ -13,7 +13,7 @@
   },
   "scripts": {
     "build": "tsc --project ./dist/tsconfig.json",
-    "publish": "yarn build & npm publish "
+    "publish": "yarn build & yarn publish "
   },
   "jest": {
     "transform": {

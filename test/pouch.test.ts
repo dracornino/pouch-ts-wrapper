@@ -25,7 +25,7 @@ test("Testing for decorators to identify a class", async () => {
 
 
 test("Test the pouchdb container developed by hehena", async () => {
-    let repository: Container = new Container("db_testing", {
+    let repository: Container = new Container("DB_TESTING", {
         ajax: { cache: false },
         auth: {
             username: "ambit",
@@ -40,9 +40,16 @@ test("Test the pouchdb container developed by hehena", async () => {
         let testingModel: Testing = { name: "Testing", date: new Date() };
 
         let res = await Unit.insertOne(unitModel);
+        expect(res.ok).toBe(true);
+
+        Unit.change({ since: "now", live: true },
+            (info: any) => {
+                console.log(info);
+            });
+
+        res = await Unit.insertOne(unitModel);
 
         expect(res.ok).toBe(true);
-        console.log(res);
 
         res = await Testing.insertOne(testingModel);
 
@@ -54,9 +61,13 @@ test("Test the pouchdb container developed by hehena", async () => {
             }
         });
 
-        expect(docs.length).toBe(1);
+        expect(docs.length).toBe(2);
+
 
         res = await Unit.deleteOne(docs[0]._id);
+        expect(res.ok).toBe(true);
+
+        res = await Unit.deleteOne(docs[1]._id);
         expect(res.ok).toBe(true);
 
 
@@ -74,5 +85,7 @@ test("Test the pouchdb container developed by hehena", async () => {
 
     } catch (reason) {
         fail(reason.message);
+    } finally {
+        await repository.close();
     }
 });

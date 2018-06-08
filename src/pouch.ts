@@ -2,7 +2,8 @@ import * as _ from "lodash";
 import * as PouchDB from "pouchdb";
 import * as Find from "pouchdb-find";
 
-export class Model<T extends Model<T>>{
+
+export class Model<T extends Model<T>> {
     public static db: PouchDB.Database;
     public static __typename: string;
 
@@ -116,8 +117,21 @@ export class Model<T extends Model<T>>{
     }
 
 
+    static change<T extends Model<T>>(
+        this: new () => T,
+        options: PouchDB.Core.ChangesOptions | null,
+        callback: any
+    ) {
+        let self: typeof Model = this as any;
 
+        const db: PouchDB.Database<T> = <PouchDB.Database<T>>self.db;
+        return db.changes(options, (res) => {
+            callback(res);
+        });
+
+    }
 }
+
 
 export class Container {
     private db: PouchDB.Database;
@@ -141,6 +155,11 @@ export class Container {
             })
         );
     }
+
+    public async close() {
+        return this.db.close();
+    }
+
 }
 
 export const TypeName = (typeName: string) => {

@@ -33,7 +33,7 @@ test("Testing for decorators to identify a class", () => __awaiter(this, void 0,
     expect(Testing.__typename).toBe(testing);
 }));
 test("Test the pouchdb container developed by hehena", () => __awaiter(this, void 0, void 0, function* () {
-    let repository = new pouch_1.Container("db_testing", {
+    let repository = new pouch_1.Container("DB_TESTING", {
         ajax: { cache: false },
         auth: {
             username: "ambit",
@@ -46,7 +46,11 @@ test("Test the pouchdb container developed by hehena", () => __awaiter(this, voi
         let testingModel = { name: "Testing", date: new Date() };
         let res = yield Unit.insertOne(unitModel);
         expect(res.ok).toBe(true);
-        console.log(res);
+        Unit.change({ since: "now", live: true }, (info) => {
+            console.log(info);
+        });
+        res = yield Unit.insertOne(unitModel);
+        expect(res.ok).toBe(true);
         res = yield Testing.insertOne(testingModel);
         expect(res.ok).toBe(true);
         let docs = yield Unit.findAll({
@@ -54,8 +58,10 @@ test("Test the pouchdb container developed by hehena", () => __awaiter(this, voi
                 _id: { "$gt": null }
             }
         });
-        expect(docs.length).toBe(1);
+        expect(docs.length).toBe(2);
         res = yield Unit.deleteOne(docs[0]._id);
+        expect(res.ok).toBe(true);
+        res = yield Unit.deleteOne(docs[1]._id);
         expect(res.ok).toBe(true);
         docs = yield Testing.findAll({
             selector: {
@@ -68,6 +74,9 @@ test("Test the pouchdb container developed by hehena", () => __awaiter(this, voi
     }
     catch (reason) {
         fail(reason.message);
+    }
+    finally {
+        yield repository.close();
     }
 }));
 //# sourceMappingURL=pouch.test.js.map

@@ -65,7 +65,7 @@ export class Model<T extends Model<T>> {
                 }
             }).then(() => {
                 _.map(documents, (doc: any) => {
-                    doc.typename = self.__typename;
+                    doc.typename__ = self.__typename;
                 })
                 return db.bulkDocs(documents);
             });
@@ -89,7 +89,7 @@ export class Model<T extends Model<T>> {
                 }
             }).then(() => {
                 let doc: any = document;
-                doc.typename = self.__typename;
+                doc.typename__ = self.__typename;
                 return db.put(doc);
             });
 

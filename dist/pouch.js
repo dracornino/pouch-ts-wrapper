@@ -103,6 +103,13 @@ class Model {
             }
         });
     }
+    static change(options, callback) {
+        let self = this;
+        const db = self.db;
+        return db.changes(options, (res) => {
+            callback(res);
+        });
+    }
 }
 exports.Model = Model;
 class Container {
@@ -120,6 +127,11 @@ class Container {
                 model.db = this.db;
                 return Promise.resolve();
             }));
+        });
+    }
+    close() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.db.close();
         });
     }
 }

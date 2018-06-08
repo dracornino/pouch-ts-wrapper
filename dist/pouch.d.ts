@@ -13,6 +13,7 @@ export declare class Model<T extends Model<T>> {
     static insertMany<T extends Model<T>>(this: new () => T, documents: Array<PouchDB.Core.PutDocument<T & Model<T>>>): Promise<any>;
     static updateOne<T extends Model<T>>(this: new () => T, document: PouchDB.Core.PostDocument<T & Model<T>>): Promise<PouchDB.Core.Response>;
     static deleteOne<T extends Model<T>>(this: new () => T, id: string): Promise<PouchDB.Core.Response>;
+    static change<T extends Model<T>>(this: new () => T, options: PouchDB.Core.ChangesOptions | null, callback: any): void;
 }
 export declare class Container {
     private db;
@@ -22,5 +23,6 @@ export declare class Container {
      */
     constructor(name: string, options?: PouchDB.Configuration.DatabaseConfiguration);
     addModels(models: Array<typeof Model>): Promise<any>;
+    close(): Promise<void>;
 }
 export declare const TypeName: (typeName: string) => (target: typeof Model) => void;

@@ -58,7 +58,7 @@ class Model {
                     }
                 }).then(() => {
                     _.map(documents, (doc) => {
-                        doc.typename = self.__typename;
+                        doc.typename__ = self.__typename;
                     });
                     return db.bulkDocs(documents);
                 });
@@ -79,7 +79,7 @@ class Model {
                     }
                 }).then(() => {
                     let doc = document;
-                    doc.typename = self.__typename;
+                    doc.typename__ = self.__typename;
                     return db.put(doc);
                 });
             }

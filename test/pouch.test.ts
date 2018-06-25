@@ -2,8 +2,8 @@ import "jest";
 import { Container, Model, TypeName } from "../src/pouch";
 
 
-const unit = "**Unit**";
-const testing = "**Testing**";
+const unit = "Unit";
+const testing = "Testing";
 
 @TypeName(unit)
 class Unit extends Model<Unit>{
@@ -42,7 +42,7 @@ test("Test the pouchdb container developed by hehena", async () => {
         let res = await Unit.insertOne(unitModel);
         expect(res.ok).toBe(true);
 
-        Unit.change({ since: "now", live: true },
+        Unit.change({ since: "now", live: true, include_docs: true }).on("change",
             (info: any) => {
                 console.log(info);
             });

@@ -2,19 +2,53 @@
     "compilerOptions": {
         "target": "es2016",
         "module": "commonjs",
-        "lib": ["dom", "es2016"],
+        "lib": [
+            "dom",
+            "es2016"
+        ],
         "moduleResolution": "node",
-        "sourceMap": true,
+        "inlineSourceMap": true,
+        "inlineSources": true,
         "noImplicitAny": true,
         "strictNullChecks": false,
         "noImplicitThis": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "noImplicitReturns": true,
-        "types": ["reflect-metadata"],
+        "allowJs": true,
+        "types": [
+            "reflect-metadata"
+        ],
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "baseUrl": "./"
     },
-    "compileOnSave": true
+    "compileOnSave": true,
+    "include": [
+        "../src/**/*.ts",
+        "../test/**/*.ts"
+    ],
+    "exclude": [
+    ]
 }
+
+// {
+//     "compilerOptions": {
+//         "target": "es2016",
+//         "module": "commonjs",
+//         "lib": ["dom", "es2016"],
+//         "moduleResolution": "node",
+//         "sourceMap": true,
+//         "noImplicitAny": true,
+//         "strictNullChecks": false,
+//         "noImplicitThis": true,
+//         "noUnusedLocals": true,
+//         "noUnusedParameters": true,
+//         "noImplicitReturns": true,
+//         "types": ["reflect-metadata"],
+//         "experimentalDecorators": true,
+//         "emitDecoratorMetadata": true,
+//         "baseUrl": "./"
+//     },
+//     "compileOnSave": true
+// }

@@ -1,8 +1,6 @@
 {
     "extends": "./ci/tsconfig.json",
     "compilerOptions": {
-        "allowJs": true,
         "watch": true
-    },
-    "include": ["./src/**/*.ts", "./test/**/*.ts"]
+    }
 }

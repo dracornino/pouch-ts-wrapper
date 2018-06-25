@@ -119,15 +119,18 @@ export class Model<T extends Model<T>> {
 
     static change<T extends Model<T>>(
         this: new () => T,
-        options: PouchDB.Core.ChangesOptions | null,
-        callback: any
+        options: PouchDB.Core.ChangesOptions | null
     ) {
         let self: typeof Model = this as any;
 
         const db: PouchDB.Database<T> = <PouchDB.Database<T>>self.db;
-        return db.changes(options, (res) => {
-            callback(res);
-        });
+        const opt = {
+            ...options,
+            filter: `${self.__typename}/${self.__typename}`
+
+        };
+
+        return db.changes(opt);
 
     }
 }
@@ -151,7 +154,16 @@ export class Container {
         return Promise.all(
             _.map(models, (model: any) => {
                 model.db = this.db;
-                return Promise.resolve();
+                const filter: any = {
+                    _id: `_design/${model.__typename}`,
+                    filters: {
+
+                    }
+                }
+                filter.filters[model.__typename] = `function (doc) { return doc.typename__ === '${model.__typename}' }`;
+                return this.db.get(`_design/${model.__typename}`).catch(() => {
+                    return this.db.put(filter);
+                })
             })
         );
     }

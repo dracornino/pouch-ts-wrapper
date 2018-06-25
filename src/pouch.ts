@@ -160,7 +160,7 @@ export class Container {
 
                     }
                 }
-                filter.filters[model.__typename] = `function (doc) { return doc.typename__ === '${model.__typename}' }`;
+                filter.filters[model.__typename] = `function (doc) { return doc.typename__ === '${model.__typename}' || doc._id === '${`_design/${model.__typename}`}' }`;
                 return this.db.get(`_design/${model.__typename}`).catch(() => {
                     return this.db.put(filter);
                 })

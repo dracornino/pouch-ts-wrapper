@@ -1,6 +1,6 @@
 {
   "name": "pouch-ts-wrapper",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "A wrapper for pouch-db based on sequelize-ts",
   "author": "dracornino",
   "license": "MIT",
@@ -45,6 +45,7 @@
     "pouchdb": "^7.0.0",
     "pouchdb-find": "^7.0.0",
     "pouchdb-server": "^4.1.0",
+    "pouchdb-adapter-memory": "^7.0.0",
     "reflect-metadata": "^0.1.12"
   },
   "devDependencies": {
@@ -67,7 +68,6 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "jest": "^23.1.0",
-    "pouchdb-adapter-memory": "^7.0.0",
     "ts-jest": "^22.4.6",
     "typescript": "^2.9.1"
   }

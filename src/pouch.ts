@@ -1,7 +1,8 @@
 import * as _ from "lodash";
 import * as PouchDB from "pouchdb";
-import * as InMemoryPlugin from "pouchdb-adapter-memory";
-import * as Find from "pouchdb-find";
+import { createDb } from "./wrapper";
+// import * as InMemoryPlugin from "pouchdb-adapter-memory";
+// import * as Find from "pouchdb-find";
 
 export class Model<T extends Model<T>> {
   public static db: PouchDB.Database;
@@ -137,9 +138,13 @@ export class Container {
     name: string,
     options?: PouchDB.Configuration.DatabaseConfiguration
   ) {
-    PouchDB.plugin(Find);
-    PouchDB.plugin(InMemoryPlugin);
-    this.db = new PouchDB(name, options);
+    console.log(`PouchDb Version ${PouchDB.version}`);
+    this.db = createDb(name, options);
+  }
+
+  public change(options: PouchDB.Core.ChangesOptions | null) {
+    const db: PouchDB.Database = this.db;
+    return db.changes(options);
   }
 
   public async addModels(models: Array<typeof Model>): Promise<any> {

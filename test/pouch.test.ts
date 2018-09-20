@@ -1,8 +1,5 @@
 import "jest";
-import * as PouchDB from "pouchdb";
-import * as InMemoryPlugin from "pouchdb-adapter-memory";
 import { Container, Model, TypeName } from "../src/pouch";
-PouchDB.plugin(InMemoryPlugin);
 
 const unit = "Unit";
 const testing = "Testing";

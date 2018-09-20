@@ -22,7 +22,6 @@ export declare class Container {
      *
      */
     constructor(name: string, options?: PouchDB.Configuration.DatabaseConfiguration);
-    change(options: PouchDB.Core.ChangesOptions | null): PouchDB.Core.Changes<{}>;
     addModels(models: Array<typeof Model>): Promise<any>;
     close(): Promise<void>;
 }

@@ -1,9 +1,10 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib",
   "files.exclude": {
+    "src/wrapper.js": false,
     "node_modules": true,
     "src/**/*.js.map": true,
-    "src/**/*.js": true,
+    "src/**/pouch.js": true,
     "test/**/*.js.map": true,
     "test/**/*.js": true
   },

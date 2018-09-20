@@ -1,8 +1,6 @@
 import * as _ from "lodash";
 import * as PouchDB from "pouchdb";
 import { createDb } from "./wrapper";
-// import * as InMemoryPlugin from "pouchdb-adapter-memory";
-// import * as Find from "pouchdb-find";
 
 export class Model<T extends Model<T>> {
   public static db: PouchDB.Database;

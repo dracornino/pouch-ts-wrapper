@@ -221,6 +221,10 @@ export class Container {
   public async close() {
     return this.db.close();
   }
+
+  public async compact() {
+    return this.db.compact();
+  }
 }
 
 export const TypeName = (typeName: string) => {

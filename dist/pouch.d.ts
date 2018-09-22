@@ -31,5 +31,6 @@ export declare class Container {
     private addModelsHandler;
     addModels(models: Array<typeof Model>): Promise<any>;
     close(): Promise<void>;
+    compact(): Promise<PouchDB.Core.Response>;
 }
 export declare const TypeName: (typeName: string) => (target: typeof Model) => void;

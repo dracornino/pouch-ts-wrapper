@@ -1,6 +1,6 @@
 {
   "name": "pouch-ts-wrapper",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "description": "A wrapper for pouch-db based on sequelize-ts",
   "author": "dracornino",
   "license": "MIT",

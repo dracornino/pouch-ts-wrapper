@@ -59,11 +59,7 @@ test("Test the pouchdb container developed by hehena", async () => {
     res = await repository.safePurge();
     expect(res.ok).toBe(false);
 
-    let docs = await Unit.findAll({
-      selector: {
-        _id: { $gt: null }
-      }
-    });
+    let docs = await Unit.findAll();
 
     expect(docs.length).toBe(2);
 
@@ -92,23 +88,22 @@ test("Test the pouchdb container developed by hehena", async () => {
 
     expect(res.ok).toBe(true);
 
-    docs = await Testing.findAll({
-      selector: {
-        _id: { $gt: null }
-      }
-    });
+    docs = await Testing.findAll();
 
     expect(docs.length).toBe(2);
 
+    await Unit.insertOne(unitModel);
+
     await Testing.deleteAll();
 
-    docs = await Testing.findAll({
-      selector: {
-        _id: { $gt: null }
-      }
-    });
+    docs = await Testing.findAll();
 
     expect(docs.length).toBe(0);
+
+    res = await repository.safePurge();
+    expect(res.ok).toBe(false);
+
+    await Unit.deleteAll();
 
     res = await repository.safePurge();
     expect(res.ok).toBe(true);

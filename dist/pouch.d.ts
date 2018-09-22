@@ -8,12 +8,12 @@
 export declare class Model<T extends Model<T>> {
     static db: PouchDB.Database;
     static __typename: string;
-    static findAll<T extends Model<T>>(this: new () => T, request: PouchDB.Find.FindRequest<T>): Promise<Array<T>>;
+    static findAll<T extends Model<T>>(this: new () => T, request?: PouchDB.Find.FindRequest<T>): Promise<Array<T>>;
     static insertOne<T extends Model<T>>(this: new () => T, document: PouchDB.Core.PostDocument<T & Model<T>>): Promise<PouchDB.Core.Response>;
     static insertMany<T extends Model<T>>(this: new () => T, documents: Array<PouchDB.Core.PutDocument<T & Model<T>>>): Promise<any>;
     static updateOne<T extends Model<T>>(this: new () => T, document: PouchDB.Core.PostDocument<T & Model<T>>): Promise<PouchDB.Core.Response>;
     static deleteOne<T extends Model<T>>(this: new () => T, id: string): Promise<PouchDB.Core.Response>;
-    static deleteAll<T extends Model<T>>(this: new () => T): Promise<(PouchDB.Core.Error | PouchDB.Core.Response)[]>;
+    static deleteAll<T extends Model<T>>(this: new () => T, request?: PouchDB.Find.FindRequest<T>): Promise<(PouchDB.Core.Error | PouchDB.Core.Response)[]>;
     static change<T extends Model<T>>(this: new () => T, options: PouchDB.Core.ChangesOptions | null): PouchDB.Core.Changes<T & {}>;
 }
 export declare class Container {

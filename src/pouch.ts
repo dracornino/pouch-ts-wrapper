@@ -8,19 +8,29 @@ export class Model<T extends Model<T>> {
 
   static async findAll<T extends Model<T>>(
     this: new () => T,
-    request: PouchDB.Find.FindRequest<T>
+    request: PouchDB.Find.FindRequest<T> = null
   ): Promise<Array<T>> {
     let self: typeof Model = this as any;
     try {
       const db: PouchDB.Database<T> = <PouchDB.Database<T>>self.db;
-      request.selector = {
-        ...request.selector,
-        typename__: self.__typename
-      };
+      const info = await db.info();
+      if (request) {
+        request.selector = {
+          ...request.selector,
+          typename__: self.__typename
+        };
+        if (!request.limit) {
+          request.limit = info.doc_count;
+        }
+      } else {
+        request = {
+          selector: { _id: { $gt: null }, typename__: self.__typename },
+          limit: info.doc_count
+        };
+      }
 
-      return db.find(request).then((res: any) => {
-        return Promise.resolve(res.docs);
-      });
+      let res = await db.find(request);
+      return Promise.resolve(res.docs);
     } catch (reason) {
       return Promise.reject(reason);
     }
@@ -109,15 +119,29 @@ export class Model<T extends Model<T>> {
     }
   }
 
-  static async deleteAll<T extends Model<T>>(this: new () => T) {
+  static async deleteAll<T extends Model<T>>(
+    this: new () => T,
+    request: PouchDB.Find.FindRequest<T> = null
+  ) {
     let self: typeof Model = this as any;
     try {
       const db: PouchDB.Database<T> = <PouchDB.Database<T>>self.db;
       const info = await db.info();
-      const result = await db.find({
-        selector: { _id: { $gt: null } },
-        limit: info.doc_count
-      });
+      if (request) {
+        request.selector = {
+          ...request.selector,
+          typename__: self.__typename
+        };
+        if (!request.limit) {
+          request.limit = info.doc_count;
+        }
+      } else {
+        request = {
+          selector: { _id: { $gt: null }, typename__: self.__typename },
+          limit: info.doc_count
+        };
+      }
+      const result = await db.find(request);
       const docsToDelete = _.map(result.docs, (doc: any) => {
         doc._deleted = true;
         return doc;

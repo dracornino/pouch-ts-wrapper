@@ -23,7 +23,7 @@ test("Testing for decorators to identify a class", async () => {
 });
 
 test("Test the pouchdb container developed by hehena", async () => {
-  let repository: Container = new Container("DB_TESTING", {
+  let repository: Container = new Container("db_testing", {
     ajax: { cache: false },
     auth: {
       username: "ambit",
@@ -43,8 +43,8 @@ test("Test the pouchdb container developed by hehena", async () => {
 
     Unit.change({ since: "now", live: true, include_docs: true }).on(
       "change",
-      (info: any) => {
-        console.log(info);
+      (_info: any) => {
+        // console.log(info);
       }
     );
 
@@ -55,6 +55,9 @@ test("Test the pouchdb container developed by hehena", async () => {
     res = await Testing.insertOne(testingModel);
 
     expect(res.ok).toBe(true);
+
+    res = await repository.safePurge();
+    expect(res.ok).toBe(false);
 
     let docs = await Unit.findAll({
       selector: {
@@ -79,6 +82,35 @@ test("Test the pouchdb container developed by hehena", async () => {
     expect(docs.length).toBe(1);
 
     res = await Testing.deleteOne(docs[0]._id);
+    expect(res.ok).toBe(true);
+
+    res = await Testing.insertOne(testingModel);
+
+    expect(res.ok).toBe(true);
+
+    res = await Testing.insertOne(testingModel);
+
+    expect(res.ok).toBe(true);
+
+    docs = await Testing.findAll({
+      selector: {
+        _id: { $gt: null }
+      }
+    });
+
+    expect(docs.length).toBe(2);
+
+    await Testing.deleteAll();
+
+    docs = await Testing.findAll({
+      selector: {
+        _id: { $gt: null }
+      }
+    });
+
+    expect(docs.length).toBe(0);
+
+    res = await repository.safePurge();
     expect(res.ok).toBe(true);
   } catch (reason) {
     fail(reason.message);

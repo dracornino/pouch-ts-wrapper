@@ -109,6 +109,25 @@ export class Model<T extends Model<T>> {
     }
   }
 
+  static async deleteAll<T extends Model<T>>(this: new () => T) {
+    let self: typeof Model = this as any;
+    try {
+      const db: PouchDB.Database<T> = <PouchDB.Database<T>>self.db;
+      const info = await db.info();
+      const result = await db.find({
+        selector: { _id: { $gt: null } },
+        limit: info.doc_count
+      });
+      const docsToDelete = _.map(result.docs, (doc: any) => {
+        doc._deleted = true;
+        return doc;
+      });
+      return db.bulkDocs(docsToDelete);
+    } catch (reason) {
+      return Promise.reject(reason);
+    }
+  }
+
   static change<T extends Model<T>>(
     this: new () => T,
     options: PouchDB.Core.ChangesOptions | null
@@ -128,7 +147,9 @@ export class Model<T extends Model<T>> {
 export class Container {
   private db: PouchDB.Database;
   public info: PouchDB.Core.DatabaseInfo;
-
+  public dbName: string;
+  public dbOptions: PouchDB.Configuration.DatabaseConfiguration;
+  private models: Array<typeof Model>;
   /**
    *
    */
@@ -137,7 +158,33 @@ export class Container {
     options?: PouchDB.Configuration.DatabaseConfiguration
   ) {
     console.log(`PouchDb Version ${PouchDB.version}`);
+    this.dbName = name;
+    this.dbOptions = options;
     this.db = createDb(name, options);
+  }
+
+  public async safePurge(): Promise<any> {
+    try {
+      const result = await this.db.find({
+        selector: { _id: { $gt: null } },
+        limit: 1
+      });
+      if (result.docs.length === 0) {
+        await this.db.destroy();
+        this.db = createDb(this.dbName, this.dbOptions);
+        await this.addModelsHandler();
+      } else {
+        return Promise.resolve({
+          ok: false
+        });
+      }
+    } catch (error) {
+      return Promise.reject(error);
+    }
+
+    return Promise.resolve({
+      ok: true
+    });
   }
 
   public change(options: PouchDB.Core.ChangesOptions | null) {
@@ -145,10 +192,10 @@ export class Container {
     return db.changes(options);
   }
 
-  public async addModels(models: Array<typeof Model>): Promise<any> {
+  private async addModelsHandler(): Promise<any> {
     this.info = await this.db.info();
     return Promise.all(
-      _.map(models, (model: any) => {
+      _.map(this.models, (model: any) => {
         model.db = this.db;
         const filter: any = {
           _id: `_design/${model.__typename}`,
@@ -164,6 +211,11 @@ export class Container {
         });
       })
     );
+  }
+
+  public async addModels(models: Array<typeof Model>): Promise<any> {
+    this.models = models;
+    return this.addModelsHandler();
   }
 
   public async close() {
